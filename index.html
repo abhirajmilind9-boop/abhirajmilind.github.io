@@ -8,358 +8,147 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 :root{
-  --bg:#050c15;
-  --surface:#0a1628;
-  --surface2:#0f1f35;
-  --cyan:#00d4ff;
-  --green:#00ff88;
+  --bg:#f8fafc;
+  --surface:#ffffff;
+  --surface2:#f1f5f9;
+  --navy:#0f2240;
+  --teal:#0284c7;
+  --green:#059669;
   --purple:#7c3aed;
-  --orange:#ff6b35;
-  --text:#e2e8f0;
+  --gold:#d97706;
+  --text:#0f172a;
   --muted:#64748b;
-  --border:#1e3a5f;
-  --glow:0 0 20px rgba(0,212,255,0.3);
+  --border:#e2e8f0;
+  --glow:0 0 24px rgba(2,132,199,0.15);
 }
 html{scroll-behavior:smooth;}
-body{
-  font-family:'Space Grotesk',sans-serif;
-  background:var(--bg);
-  color:var(--text);
-  line-height:1.6;
-  overflow-x:hidden;
-}
-
-/* ── CANVAS BG ── */
-#canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:0.4;}
-
-/* ── WRAPPER ── */
+body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden;}
+#canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:0.18;}
 .page{position:relative;z-index:1;}
 
-/* ── HERO ── */
+/* HERO */
 .hero{
-  min-height:100vh;
-  display:flex;flex-direction:column;
+  min-height:100vh;display:flex;flex-direction:column;
   align-items:center;justify-content:center;
-  text-align:center;
-  padding:60px 24px;
-  position:relative;
+  text-align:center;padding:60px 24px;position:relative;
+  background:linear-gradient(160deg,#ffffff 0%,#eff6ff 50%,#f0fdf4 100%);
+  border-bottom:1px solid var(--border);
 }
-.hero-tag{
-  font-family:'JetBrains Mono',monospace;
-  font-size:12px;
-  color:var(--cyan);
-  letter-spacing:3px;
-  text-transform:uppercase;
-  margin-bottom:20px;
-  opacity:0;animation:fadeUp 0.8s 0.2s forwards;
-}
+.hero-tag{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--teal);letter-spacing:3px;text-transform:uppercase;margin-bottom:20px;opacity:0;animation:fadeUp 0.8s 0.2s forwards;}
 .hero-tag::before{content:'> ';opacity:0.5;}
-.hero h1{
-  font-size:clamp(48px,8vw,96px);
-  font-weight:700;
-  letter-spacing:-3px;
-  line-height:0.95;
-  opacity:0;animation:fadeUp 0.8s 0.4s forwards;
-}
-.hero h1 span{
-  background:linear-gradient(135deg,var(--cyan),var(--green));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-  background-clip:text;
-}
-.hero-role{
-  font-family:'JetBrains Mono',monospace;
-  font-size:clamp(13px,2vw,16px);
-  color:var(--muted);
-  margin-top:16px;
-  opacity:0;animation:fadeUp 0.8s 0.6s forwards;
-}
-.hero-role .typed-cursor{color:var(--cyan);animation:blink 1s infinite;}
-.hero-stats{
-  display:flex;gap:40px;flex-wrap:wrap;justify-content:center;
-  margin-top:40px;
-  opacity:0;animation:fadeUp 0.8s 0.8s forwards;
-}
-.stat{text-align:center;}
-.stat-num{
-  font-size:clamp(28px,4vw,48px);
-  font-weight:700;
-  background:linear-gradient(135deg,var(--cyan),var(--green));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-  background-clip:text;
-  font-family:'JetBrains Mono',monospace;
-}
-.stat-label{font-size:11px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-top:2px;}
-.hero-contacts{
-  display:flex;flex-wrap:wrap;gap:12px;justify-content:center;
-  margin-top:40px;
-  opacity:0;animation:fadeUp 0.8s 1s forwards;
-}
-.contact-btn{
-  display:inline-flex;align-items:center;gap:8px;
-  padding:10px 20px;
+.hero h1{font-size:clamp(48px,8vw,96px);font-weight:700;letter-spacing:-3px;line-height:0.95;opacity:0;animation:fadeUp 0.8s 0.4s forwards;color:var(--navy);}
+.hero h1 span{background:linear-gradient(135deg,var(--teal),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero-role{font-family:'JetBrains Mono',monospace;font-size:clamp(12px,2vw,15px);color:var(--muted);margin-top:16px;opacity:0;animation:fadeUp 0.8s 0.6s forwards;}
+.typed-cursor{color:var(--teal);animation:blink 1s infinite;}
+
+/* ACHIEVEMENT STRIP */
+.ach-strip{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-top:32px;opacity:0;animation:fadeUp 0.8s 0.7s forwards;}
+.ach-pill{
+  display:flex;flex-direction:column;align-items:center;
+  background:var(--surface);
   border:1px solid var(--border);
-  border-radius:8px;
-  font-size:13px;font-family:'JetBrains Mono',monospace;
-  color:var(--cyan);text-decoration:none;
-  background:rgba(0,212,255,0.05);
+  border-radius:14px;padding:16px 22px;min-width:130px;
+  box-shadow:0 2px 12px rgba(15,34,64,0.07);
   transition:all 0.3s;
 }
-.contact-btn:hover{
-  background:rgba(0,212,255,0.12);
-  border-color:var(--cyan);
-  box-shadow:var(--glow);
-  transform:translateY(-2px);
-}
-.scroll-hint{
-  position:absolute;bottom:30px;
-  font-size:11px;color:var(--muted);
-  font-family:'JetBrains Mono',monospace;
-  letter-spacing:2px;
-  animation:pulse 2s infinite;
-}
+.ach-pill:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(2,132,199,0.12);border-color:var(--teal);}
+.ach-pill .num{font-family:'JetBrains Mono',monospace;font-size:clamp(20px,3vw,30px);font-weight:700;background:linear-gradient(135deg,var(--teal),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.ach-pill .lbl{font-size:11px;color:var(--muted);margin-top:3px;letter-spacing:0.3px;}
+
+.hero-contacts{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:28px;opacity:0;animation:fadeUp 0.8s 1s forwards;}
+.contact-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border:1px solid var(--border);border-radius:8px;font-size:12.5px;font-family:'JetBrains Mono',monospace;color:var(--navy);text-decoration:none;background:var(--surface);transition:all 0.3s;box-shadow:0 1px 4px rgba(15,34,64,0.06);}
+.contact-btn:hover{background:var(--teal);color:white;border-color:var(--teal);transform:translateY(-2px);box-shadow:var(--glow);}
+.contact-btn.linkedin:hover{background:#0a66c2;border-color:#0a66c2;}
+.scroll-hint{position:absolute;bottom:30px;font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace;letter-spacing:2px;animation:pulse 2s infinite;}
 .scroll-hint::after{content:' ↓';}
 
-/* ── NAV ── */
-.nav{
-  position:sticky;top:0;z-index:100;
-  background:rgba(5,12,21,0.85);
-  backdrop-filter:blur(20px);
-  border-bottom:1px solid var(--border);
-  display:flex;justify-content:center;gap:4px;
-  padding:0 16px;
-  overflow-x:auto;
-}
-.nav a{
-  font-family:'JetBrains Mono',monospace;
-  font-size:11px;
-  letter-spacing:1.5px;
-  text-transform:uppercase;
-  color:var(--muted);
-  text-decoration:none;
-  padding:14px 16px;
-  border-bottom:2px solid transparent;
-  transition:all 0.2s;
-  white-space:nowrap;
-}
-.nav a:hover{color:var(--cyan);border-bottom-color:var(--cyan);}
+/* NAV */
+.nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);display:flex;justify-content:center;gap:4px;padding:0 16px;overflow-x:auto;box-shadow:0 2px 12px rgba(15,34,64,0.06);}
+.nav a{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);text-decoration:none;padding:14px 16px;border-bottom:2px solid transparent;transition:all 0.2s;white-space:nowrap;}
+.nav a:hover{color:var(--teal);border-bottom-color:var(--teal);}
 
-/* ── SECTION ── */
+/* SECTIONS */
 .section{max-width:1000px;margin:0 auto;padding:80px 24px;}
-.sec-eyebrow{
-  font-family:'JetBrains Mono',monospace;
-  font-size:11px;color:var(--cyan);
-  letter-spacing:3px;text-transform:uppercase;
-  margin-bottom:10px;
-  display:flex;align-items:center;gap:10px;
-}
+.sec-eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--teal);letter-spacing:3px;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:10px;}
 .sec-eyebrow::before{content:'//';opacity:0.4;}
-.sec-title{
-  font-size:clamp(28px,4vw,42px);
-  font-weight:700;letter-spacing:-1px;
-  margin-bottom:40px;
-  color:var(--text);
-}
+.sec-title{font-size:clamp(26px,4vw,40px);font-weight:700;letter-spacing:-1px;margin-bottom:36px;color:var(--navy);}
 
-/* ── OBJECTIVE ── */
-.objective-card{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:16px;
-  padding:32px;
-  position:relative;
-  overflow:hidden;
-}
-.objective-card::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:2px;
-  background:linear-gradient(90deg,var(--cyan),var(--green),var(--purple));
-}
-.objective-card p{
-  font-size:16px;line-height:1.8;color:#94a3b8;
-}
-.objective-card p strong{color:var(--cyan);}
+/* OBJECTIVE */
+.objective-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:32px;position:relative;overflow:hidden;box-shadow:0 2px 16px rgba(15,34,64,0.06);}
+.objective-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--teal),var(--green),var(--purple));}
+.objective-card p{font-size:15px;line-height:1.85;color:#334155;}
+.objective-card p strong{color:var(--teal);}
 
-/* ── TIMELINE ── */
+.highlight-box{margin-top:16px;background:linear-gradient(135deg,rgba(5,150,105,0.05),rgba(2,132,199,0.05));border:1px solid rgba(2,132,199,0.2);border-radius:12px;padding:18px 22px;display:flex;align-items:flex-start;gap:14px;}
+.highlight-box .icon{font-size:24px;flex-shrink:0;margin-top:2px;}
+.highlight-box .text{font-size:13.5px;color:#475569;line-height:1.7;}
+.highlight-box .text strong{color:var(--green);}
+
+/* TIMELINE */
 .timeline{position:relative;padding-left:24px;}
-.timeline::before{
-  content:'';
-  position:absolute;left:0;top:0;bottom:0;width:1px;
-  background:linear-gradient(to bottom,var(--cyan),var(--purple),transparent);
-}
-.tl-item{
-  position:relative;margin-bottom:28px;
-  opacity:0;transform:translateX(-20px);
-  transition:all 0.5s;
-}
+.timeline::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,var(--teal),var(--purple),transparent);}
+.tl-item{position:relative;margin-bottom:24px;opacity:0;transform:translateX(-20px);transition:all 0.5s;}
 .tl-item.visible{opacity:1;transform:translateX(0);}
-.tl-dot{
-  position:absolute;left:-28px;top:20px;
-  width:10px;height:10px;border-radius:50%;
-  background:var(--cyan);
-  box-shadow:0 0 12px var(--cyan);
-}
-.tl-card{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:12px;
-  padding:22px 24px;
-  transition:all 0.3s;
-  cursor:pointer;
-}
-.tl-card:hover{
-  border-color:var(--cyan);
-  box-shadow:0 0 30px rgba(0,212,255,0.1);
-  transform:translateX(6px);
-}
+.tl-dot{position:absolute;left:-29px;top:22px;width:12px;height:12px;border-radius:50%;background:var(--teal);box-shadow:0 0 0 3px rgba(2,132,199,0.2);}
+.tl-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:22px 24px;transition:all 0.3s;box-shadow:0 2px 10px rgba(15,34,64,0.05);}
+.tl-card:hover{border-color:var(--teal);box-shadow:0 8px 28px rgba(2,132,199,0.1);transform:translateX(4px);}
 .tl-head{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:8px;}
-.tl-company{font-size:16px;font-weight:700;color:var(--text);}
-.tl-badge{
-  font-family:'JetBrains Mono',monospace;
-  font-size:10px;letter-spacing:1px;
-  padding:4px 12px;border-radius:100px;
-  background:rgba(0,212,255,0.1);
-  border:1px solid rgba(0,212,255,0.3);
-  color:var(--cyan);
-  white-space:nowrap;
-}
-.tl-badge.current{
-  background:rgba(0,255,136,0.1);
-  border-color:rgba(0,255,136,0.4);
-  color:var(--green);
-}
-.tl-role{font-size:13px;color:var(--cyan);font-weight:600;margin-top:3px;}
-.tl-meta{
-  font-family:'JetBrains Mono',monospace;
-  font-size:11px;color:var(--muted);margin-top:4px;
-}
+.tl-company{font-size:16px;font-weight:700;color:var(--navy);}
+.tl-badge{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1px;padding:4px 12px;border-radius:100px;background:rgba(2,132,199,0.08);border:1px solid rgba(2,132,199,0.25);color:var(--teal);white-space:nowrap;}
+.tl-badge.current{background:rgba(5,150,105,0.08);border-color:rgba(5,150,105,0.3);color:var(--green);}
+.tl-role{font-size:13px;color:var(--teal);font-weight:600;margin-top:3px;}
+.tl-meta{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);margin-top:4px;}
 .tl-divider{height:1px;background:var(--border);margin:14px 0;}
 .tl-bullets{list-style:none;}
-.tl-bullets li{
-  font-size:13px;color:#94a3b8;
-  padding:3px 0 3px 16px;
-  position:relative;line-height:1.5;
-}
-.tl-bullets li::before{
-  content:'▸';position:absolute;left:0;
-  color:var(--green);font-size:10px;top:5px;
-}
+.tl-bullets li{font-size:13px;color:#475569;padding:4px 0 4px 18px;position:relative;line-height:1.6;}
+.tl-bullets li::before{content:'▸';position:absolute;left:0;color:var(--teal);font-size:10px;top:6px;}
+.tl-bullets li.win{color:var(--navy);background:linear-gradient(135deg,rgba(5,150,105,0.05),rgba(2,132,199,0.04));border-radius:8px;padding:8px 12px 8px 30px;margin:4px 0;border-left:3px solid var(--green);}
+.tl-bullets li.win::before{content:'🏆';font-size:12px;top:8px;left:8px;}
+.tl-bullets li.win strong{color:var(--green);}
 
-/* ── SKILLS GRID ── */
-.skills-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
-  gap:12px;
-}
-.skill-card{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:10px;
-  padding:14px 16px;
-  display:flex;align-items:center;gap:10px;
-  transition:all 0.3s;
-  opacity:0;transform:translateY(10px);
-}
+.job-stats{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;}
+.job-stat{font-family:'JetBrains Mono',monospace;font-size:11px;padding:5px 12px;border-radius:100px;background:rgba(2,132,199,0.06);border:1px solid rgba(2,132,199,0.15);color:var(--teal);}
+
+/* SKILLS */
+.skills-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:12px;}
+.skill-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 16px;display:flex;align-items:center;gap:10px;transition:all 0.3s;opacity:0;transform:translateY(10px);box-shadow:0 1px 6px rgba(15,34,64,0.04);}
 .skill-card.visible{opacity:1;transform:translateY(0);}
-.skill-card:hover{
-  border-color:var(--cyan);
-  background:rgba(0,212,255,0.05);
-  box-shadow:0 0 20px rgba(0,212,255,0.08);
-}
-.skill-icon{font-size:18px;}
-.skill-name{font-size:13px;font-weight:500;color:var(--text);}
+.skill-card:hover{border-color:var(--teal);background:rgba(2,132,199,0.04);box-shadow:0 4px 16px rgba(2,132,199,0.1);transform:translateY(-2px);}
+.skill-icon{font-size:18px;}.skill-name{font-size:13px;font-weight:500;color:var(--navy);}
 
-/* ── KRA ── */
-.kra-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
-  gap:12px;
-}
-.kra-card{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:10px;
-  padding:16px;
-  position:relative;overflow:hidden;
-  transition:all 0.3s;
-  opacity:0;transform:scale(0.95);
-}
+/* KRA */
+.kra-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px;}
+.kra-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;position:relative;overflow:hidden;transition:all 0.3s;opacity:0;transform:scale(0.95);box-shadow:0 1px 6px rgba(15,34,64,0.04);}
 .kra-card.visible{opacity:1;transform:scale(1);}
-.kra-card::after{
-  content:'';
-  position:absolute;bottom:0;left:0;right:0;height:2px;
-  background:linear-gradient(90deg,var(--cyan),var(--green));
-  transform:scaleX(0);transform-origin:left;
-  transition:transform 0.3s;
-}
+.kra-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--teal),var(--green));transform:scaleX(0);transform-origin:left;transition:transform 0.3s;}
 .kra-card:hover::after{transform:scaleX(1);}
-.kra-card:hover{border-color:rgba(0,212,255,0.4);}
-.kra-num{
-  font-family:'JetBrains Mono',monospace;
-  font-size:10px;color:var(--muted);
-  margin-bottom:6px;
-}
-.kra-text{font-size:13px;font-weight:600;color:var(--text);}
+.kra-card:hover{border-color:var(--teal);box-shadow:0 4px 16px rgba(2,132,199,0.1);}
+.kra-num{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);margin-bottom:6px;}
+.kra-text{font-size:13px;font-weight:600;color:var(--navy);}
 
-/* ── EDU ── */
+/* EDU */
 .edu-grid{display:flex;flex-direction:column;gap:12px;}
-.edu-card{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:12px;
-  padding:18px 22px;
-  display:flex;align-items:center;gap:20px;
-  transition:all 0.3s;
-  opacity:0;transform:translateY(10px);
-}
+.edu-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px 22px;display:flex;align-items:center;gap:20px;transition:all 0.3s;opacity:0;transform:translateY(10px);box-shadow:0 1px 6px rgba(15,34,64,0.04);}
 .edu-card.visible{opacity:1;transform:translateY(0);}
-.edu-card:hover{border-color:var(--purple);box-shadow:0 0 20px rgba(124,58,237,0.1);}
-.edu-year{
-  font-family:'JetBrains Mono',monospace;
-  font-size:12px;font-weight:700;
-  color:var(--purple);min-width:44px;text-align:center;
-}
-.edu-deg{font-size:14px;font-weight:600;color:var(--text);}
+.edu-card:hover{border-color:var(--purple);box-shadow:0 4px 16px rgba(124,58,237,0.08);}
+.edu-year{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:var(--purple);min-width:44px;text-align:center;}
+.edu-deg{font-size:14px;font-weight:600;color:var(--navy);}
 .edu-inst{font-size:12px;color:var(--muted);margin-top:2px;}
 
-/* ── PERSONAL ── */
-.personal-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
-  gap:12px;
-}
-.personal-card{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:10px;
-  padding:16px 18px;
-}
-.personal-label{
-  font-family:'JetBrains Mono',monospace;
-  font-size:10px;letter-spacing:1.5px;
-  color:var(--muted);text-transform:uppercase;
-  margin-bottom:6px;
-}
-.personal-val{font-size:14px;font-weight:600;color:var(--text);}
+/* PERSONAL */
+.personal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;}
+.personal-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px 18px;box-shadow:0 1px 6px rgba(15,34,64,0.04);}
+.personal-label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;margin-bottom:6px;}
+.personal-val{font-size:14px;font-weight:600;color:var(--navy);}
 
-/* ── FOOTER ── */
-.footer{
-  text-align:center;
-  padding:40px 24px;
-  border-top:1px solid var(--border);
-  font-family:'JetBrains Mono',monospace;
-  font-size:12px;color:var(--muted);
-}
-.footer span{color:var(--cyan);}
+/* FOOTER */
+.footer{text-align:center;padding:40px 24px;border-top:1px solid var(--border);font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);background:var(--surface);}
+.footer span{color:var(--teal);}
 
-/* ── ANIMATIONS ── */
 @keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
 @keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
 @keyframes pulse{0%,100%{opacity:0.4;}50%{opacity:1;}}
-
-@media(max-width:600px){
-  .hero-stats{gap:24px;}
-  .timeline{padding-left:16px;}
-  .tl-dot{left:-20px;}
-}
+@media(max-width:600px){.ach-strip{gap:10px;}.ach-pill{min-width:110px;padding:12px 14px;}.timeline{padding-left:16px;}.tl-dot{left:-22px;}}
 </style>
 </head>
 <body>
@@ -368,20 +157,21 @@ body{
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-tag">Marketing & Commercial Leader</div>
+  <div class="hero-tag">Marketing & Commercial Leader · 17+ Years</div>
   <h1>Abhiraj<br/><span>Milind</span></h1>
-  <div class="hero-role">
-    <span id="typed"></span><span class="typed-cursor">_</span>
+  <div class="hero-role"><span id="typed"></span><span class="typed-cursor">_</span></div>
+
+  <div class="ach-strip">
+    <div class="ach-pill"><div class="num">₹60Cr</div><div class="lbl">Business Managed</div></div>
+    <div class="ach-pill"><div class="num">3.5L MT</div><div class="lbl">SAIL Tender Won</div></div>
+    <div class="ach-pill"><div class="num">₹5Cr</div><div class="lbl">Revenue Built @ Shivaay</div></div>
+    <div class="ach-pill"><div class="num">21</div><div class="lbl">Rakes/Month Handled</div></div>
   </div>
-  <div class="hero-stats">
-    <div class="stat"><div class="stat-num" data-target="17">0</div><div class="stat-label">Years Experience</div></div>
-    <div class="stat"><div class="stat-num" data-target="10">0</div><div class="stat-label">+ Major Clients</div></div>
-    <div class="stat"><div class="stat-num" data-target="5">0</div><div class="stat-label">Companies Led</div></div>
-    <div class="stat"><div class="stat-num" data-target="3">0</div><div class="stat-label">States Covered</div></div>
-  </div>
+
   <div class="hero-contacts">
     <a class="contact-btn" href="tel:+917008263982">📞 +91 70082 63982</a>
     <a class="contact-btn" href="mailto:abhirajmilind9@gmail.com">✉ abhirajmilind9@gmail.com</a>
+    <a class="contact-btn linkedin" href="https://www.linkedin.com/in/abhiraj-milind" target="_blank">🔗 LinkedIn: Abhiraj Milind</a>
     <span class="contact-btn">📍 Raipur, Chhattisgarh</span>
   </div>
   <div class="scroll-hint">scroll to explore</div>
@@ -401,7 +191,15 @@ body{
   <div class="sec-eyebrow">Profile</div>
   <div class="sec-title">Who I Am</div>
   <div class="objective-card">
-    <p>Result-oriented professional with <strong>17+ years of experience</strong> across Commercial Operations, Raw Material Procurement, Marketing & Business Development, Customer Negotiation and Logistics. Known for adopting emerging market trends, driving organisational profitability through strong analytical instincts, and leading cross-functional teams across India's core mineral and ferro-alloy sectors.</p>
+    <p>A <strong>high-impact revenue leader</strong> with 17+ years of proven results across Dolomite, Ferro Alloys and Mining Equipment sectors. Built Shivaay Associates from zero to <strong>₹5 Crore/year</strong>. Managed a <strong>₹60 Crore business portfolio</strong> at Gurushree Minerals. Won a landmark <strong>SAIL Dolomite tender of 3.5 Lakh MT</strong> — one of the largest in the sector. Trusted by India's biggest steel producers including SAIL, JSW, JSPL and TATA Steel.</p>
+    <div class="highlight-box">
+      <div class="icon">🏆</div>
+      <div class="text"><strong>Landmark Win: SAIL Dolomite Tender — 3.5 Lakh MT</strong><br/>Personally led the end-to-end tender preparation, submission and negotiation at Gurushree Minerals. Also onboarded SAIL & TATA Steel as new major clients during the same tenure.</div>
+    </div>
+    <div class="highlight-box" style="margin-top:12px;">
+      <div class="icon">🚀</div>
+      <div class="text"><strong>Built from Zero: Shivaay Associates ₹0 → ₹5 Crore/year</strong><br/>Joined as founding marketing lead and independently built the entire revenue pipeline — client acquisition, logistics, railway co-ordination, tenders and key account management.</div>
+    </div>
   </div>
 </section>
 
@@ -417,16 +215,23 @@ body{
         <div class="tl-head">
           <div>
             <div class="tl-company">Shivaay Associates</div>
-            <div class="tl-role">Asst. General Manager – Marketing</div>
-            <div class="tl-meta">📍 Baradwar, CG &nbsp;·&nbsp; July 2026 – Present &nbsp;·&nbsp; Dolomite</div>
+            <div class="tl-role">Asst. General Manager – Marketing &nbsp;(promoted from Marketing Manager)</div>
+            <div class="tl-meta">📍 Baradwar, CG &nbsp;·&nbsp; Jan 2022 – Present &nbsp;·&nbsp; Dolomite</div>
           </div>
           <span class="tl-badge current">● CURRENT</span>
         </div>
+        <div class="job-stats">
+          <span class="job-stat">₹5 Cr Revenue Built</span>
+          <span class="job-stat">₹0 → ₹5Cr Growth</span>
+          <span class="job-stat">JSW · JSP · SAIL · TATA</span>
+        </div>
         <div class="tl-divider"></div>
         <ul class="tl-bullets">
-          <li>Strategic marketing & business development; key accounts include JSW, JSP, SAIL, TATA, SEIL, MSP.</li>
-          <li>Logistics & Dispatch Planning; Railway Rake Indenting and full chain co-ordination.</li>
-          <li>E-Auction & Tender Participation for Mines and Alloys; Supply & Competitor Intelligence.</li>
+          <li class="win">Grew company revenue from <strong>₹0 to ₹5 Crore/year</strong> — built entire marketing & sales pipeline from scratch as founding marketing lead.</li>
+          <li>Strategic business development with JSW, JSP, SAIL, TATA, SEIL, MSP & others.</li>
+          <li>End-to-end Logistics & Dispatch Planning; Railway Rake Indenting and co-ordination.</li>
+          <li>E-Auction & Tender Participation for Mines and Alloys; Competitor Intelligence.</li>
+          <li>Promoted from Marketing Manager → AGM Marketing based on consistent performance.</li>
         </ul>
       </div>
     </div>
@@ -444,28 +249,9 @@ body{
         </div>
         <div class="tl-divider"></div>
         <ul class="tl-bullets">
-          <li>Technical Marketing & Product Promotion; Sales Target Management.</li>
+          <li>Technical Marketing & Product Promotion across high-value Ferro Alloy products.</li>
           <li>Pricing & Cost Benefit Proposals; CRM; GEM Tender Participation.</li>
-          <li>Market Intelligence and cross-department co-ordination.</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="tl-item">
-      <div class="tl-dot"></div>
-      <div class="tl-card">
-        <div class="tl-head">
-          <div>
-            <div class="tl-company">Shivaay Associates</div>
-            <div class="tl-role">Marketing Manager</div>
-            <div class="tl-meta">📍 Baradwar, CG &nbsp;·&nbsp; Jan 2022 – Mar 2025 &nbsp;·&nbsp; Dolomite</div>
-          </div>
-          <span class="tl-badge">3 YRS</span>
-        </div>
-        <div class="tl-divider"></div>
-        <ul class="tl-bullets">
-          <li>Consistent dispatch target achievement; Railway Rake Indenting leadership.</li>
-          <li>Managed E-Auctions, Tender participation and Logistics oversight.</li>
+          <li>Market Intelligence and co-ordination with Production & Logistics.</li>
         </ul>
       </div>
     </div>
@@ -481,11 +267,19 @@ body{
           </div>
           <span class="tl-badge">3 YRS</span>
         </div>
+        <div class="job-stats">
+          <span class="job-stat">₹60 Cr Business Managed</span>
+          <span class="job-stat">21 Rakes/Month</span>
+          <span class="job-stat">3,000 MT Calcined/Month</span>
+          <span class="job-stat">3.5 Lakh MT SAIL Tender</span>
+        </div>
         <div class="tl-divider"></div>
         <ul class="tl-bullets">
-          <li>Raw Material Procurement; end-to-end Logistics management.</li>
-          <li>LC preparation, negotiation and Bill of Exchange submissions.</li>
-          <li>Third-party quality testing agency co-ordination.</li>
+          <li class="win">Won <strong>SAIL Dolomite Tender of 3.5 Lakh MT</strong> — led complete tender preparation, submission and negotiation process.</li>
+          <li class="win">Onboarded <strong>SAIL & TATA Steel</strong> as major new clients — significantly expanding key account portfolio.</li>
+          <li class="win">Managed overall business of <strong>₹60 Crore</strong> across Dolomite, Calcined Dolomite and Ferro Vanadium.</li>
+          <li>Handled <strong>21 Railway Rakes/month</strong> of Dolomite + <strong>~3,000 MT/month</strong> Calcined Dolomite dispatch.</li>
+          <li>Key accounts: SAIL, JSW, JSPL, TATA Steel. LC preparation, negotiation, Bill of Exchange submissions.</li>
         </ul>
       </div>
     </div>
@@ -497,14 +291,19 @@ body{
           <div>
             <div class="tl-company">DCS Techno Services Pvt. Ltd.</div>
             <div class="tl-role">Sales Executive</div>
-            <div class="tl-meta">📍 Odisha & Jharkhand &nbsp;·&nbsp; Jun 2008 – Nov 2018 &nbsp;·&nbsp; Kennametal Tools · Rock Breakers</div>
+            <div class="tl-meta">📍 Odisha & Jharkhand &nbsp;·&nbsp; Jun 2008 – Nov 2018 &nbsp;·&nbsp; Kennametal Tools · Turbo Pre-cleaner · Rock Breakers</div>
           </div>
           <span class="tl-badge">10 YRS</span>
         </div>
+        <div class="job-stats">
+          <span class="job-stat">₹2 Cr Yearly Business</span>
+          <span class="job-stat">Odisha & Jharkhand Territory</span>
+        </div>
         <div class="tl-divider"></div>
         <ul class="tl-bullets">
-          <li>Sales & installation of TurboII pre-cleaners and Kennametal mining tools.</li>
-          <li>Built wide mining-sector customer base across Odisha and Jharkhand.</li>
+          <li class="win">Managed <strong>₹2 Crore/year</strong> sales of mining equipment across Odisha & Jharkhand for 10 years.</li>
+          <li>Sales & installation of TurboII pre-cleaners and Kennametal mining & construction tools.</li>
+          <li>Built and maintained loyal customer base in core mining equipment sector.</li>
         </ul>
       </div>
     </div>
@@ -517,7 +316,7 @@ body{
   <div class="sec-eyebrow">Capabilities</div>
   <div class="sec-title">Core Skills</div>
   <div class="skills-grid">
-    <div class="skill-card"><span class="skill-icon">📈</span><span class="skill-name">Biz Development</span></div>
+    <div class="skill-card"><span class="skill-icon">📈</span><span class="skill-name">Business Development</span></div>
     <div class="skill-card"><span class="skill-icon">🚚</span><span class="skill-name">Logistics & Dispatch</span></div>
     <div class="skill-card"><span class="skill-icon">🤝</span><span class="skill-name">Customer Negotiation</span></div>
     <div class="skill-card"><span class="skill-icon">🚂</span><span class="skill-name">Railway Rake Indenting</span></div>
@@ -525,10 +324,10 @@ body{
     <div class="skill-card"><span class="skill-icon">🏆</span><span class="skill-name">E-Auction & Tenders</span></div>
     <div class="skill-card"><span class="skill-icon">🧠</span><span class="skill-name">Market Intelligence</span></div>
     <div class="skill-card"><span class="skill-icon">👥</span><span class="skill-name">Team Leadership</span></div>
-    <div class="skill-card"><span class="skill-icon">📊</span><span class="skill-name">Sales Planning</span></div>
+    <div class="skill-card"><span class="skill-icon">💰</span><span class="skill-name">Revenue Generation</span></div>
     <div class="skill-card"><span class="skill-icon">📄</span><span class="skill-name">LC & Documentation</span></div>
     <div class="skill-card"><span class="skill-icon">🛳️</span><span class="skill-name">Containerized Import</span></div>
-    <div class="skill-card"><span class="skill-icon">🎯</span><span class="skill-name">Target Management</span></div>
+    <div class="skill-card"><span class="skill-icon">🎯</span><span class="skill-name">Key Account Mgmt</span></div>
   </div>
 </section>
 
@@ -537,11 +336,11 @@ body{
   <div class="sec-eyebrow">Impact Areas</div>
   <div class="sec-title">Key Result Areas</div>
   <div class="kra-grid">
-    <div class="kra-card"><div class="kra-num">KRA 01</div><div class="kra-text">Sales & Business Development</div></div>
+    <div class="kra-card"><div class="kra-num">KRA 01</div><div class="kra-text">Revenue & Business Growth</div></div>
     <div class="kra-card"><div class="kra-num">KRA 02</div><div class="kra-text">Railway Rake Indenting</div></div>
     <div class="kra-card"><div class="kra-num">KRA 03</div><div class="kra-text">Monthly Sales Budget Planning</div></div>
     <div class="kra-card"><div class="kra-num">KRA 04</div><div class="kra-text">Transporter Appointment & Monitoring</div></div>
-    <div class="kra-card"><div class="kra-num">KRA 05</div><div class="kra-text">Customer Relationship Management</div></div>
+    <div class="kra-card"><div class="kra-num">KRA 05</div><div class="kra-text">Key Account Management</div></div>
     <div class="kra-card"><div class="kra-num">KRA 06</div><div class="kra-text">Containerized Import Supervision</div></div>
     <div class="kra-card"><div class="kra-num">KRA 07</div><div class="kra-text">LC Preparation & Negotiation</div></div>
     <div class="kra-card"><div class="kra-num">KRA 08</div><div class="kra-text">E-Auction & Tender Participation</div></div>
@@ -555,13 +354,13 @@ body{
   <div class="sec-eyebrow">Academia</div>
   <div class="sec-title">Education</div>
   <div class="edu-grid">
-    <div class="edu-card"><div class="edu-year">MBA</div><div><div class="edu-deg">MBA – Marketing Management</div><div class="edu-inst">Welingkar Institute of Management Development & Research, Mumbai (Distance)</div></div></div>
+    <div class="edu-card"><div class="edu-year">MBA</div><div><div class="edu-deg">MBA – Marketing Management</div><div class="edu-inst">Welingkar Institute of Management Development & Research, Mumbai</div></div></div>
     <div class="edu-card"><div class="edu-year">2010</div><div><div class="edu-deg">B.Com – Bachelor of Commerce</div><div class="edu-inst">Markham College of Commerce, Jharkhand</div></div></div>
     <div class="edu-card"><div class="edu-year">2007</div><div><div class="edu-deg">Intermediate in Commerce</div><div class="edu-inst">Markham College of Commerce, Jharkhand</div></div></div>
     <div class="edu-card"><div class="edu-year">2003</div><div><div class="edu-deg">Matriculation</div><div class="edu-inst">DAV Public School, Jharkhand</div></div></div>
   </div>
 
-  <div style="margin-top:40px;">
+  <div style="margin-top:48px;">
     <div class="sec-eyebrow">Details</div>
     <div class="sec-title" style="font-size:28px;margin-bottom:20px;">Personal Info</div>
     <div class="personal-grid">
@@ -576,108 +375,29 @@ body{
 </section>
 
 <div class="footer">
-  <span>abhiraj.milind</span> &nbsp;·&nbsp; built for the AI era &nbsp;·&nbsp; 2026
+  <span>Abhiraj Milind</span> &nbsp;·&nbsp; abhirajmilind9@gmail.com &nbsp;·&nbsp; +91 70082 63982 &nbsp;·&nbsp; 2026
+</div>
 </div>
 
-</div><!-- /page -->
-
 <script>
-// ── PARTICLE CANVAS ──
-const canvas = document.getElementById('canvas');
-const ctx = canvas.getContext('2d');
-let particles = [];
+// SOFT PARTICLES for light theme
+const canvas=document.getElementById('canvas'),ctx=canvas.getContext('2d');
 function resize(){canvas.width=window.innerWidth;canvas.height=window.innerHeight;}
 resize();window.addEventListener('resize',resize);
-
-class Particle{
-  constructor(){this.reset();}
-  reset(){
-    this.x=Math.random()*canvas.width;
-    this.y=Math.random()*canvas.height;
-    this.size=Math.random()*1.5+0.3;
-    this.speedX=(Math.random()-0.5)*0.4;
-    this.speedY=(Math.random()-0.5)*0.4;
-    this.opacity=Math.random()*0.6+0.1;
-    this.color=Math.random()>0.5?'0,212,255':'0,255,136';
-  }
-  update(){
-    this.x+=this.speedX;this.y+=this.speedY;
-    if(this.x<0||this.x>canvas.width||this.y<0||this.y>canvas.height)this.reset();
-  }
-  draw(){
-    ctx.save();ctx.globalAlpha=this.opacity;
-    ctx.fillStyle=`rgba(${this.color},1)`;
-    ctx.beginPath();ctx.arc(this.x,this.y,this.size,0,Math.PI*2);ctx.fill();
-    ctx.restore();
-  }
-}
-
-for(let i=0;i<120;i++)particles.push(new Particle());
-
-function animate(){
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  // draw connections
-  particles.forEach((p,i)=>{
-    particles.slice(i+1).forEach(q=>{
-      const d=Math.hypot(p.x-q.x,p.y-q.y);
-      if(d<100){
-        ctx.save();ctx.globalAlpha=(1-d/100)*0.12;
-        ctx.strokeStyle='rgba(0,212,255,1)';ctx.lineWidth=0.5;
-        ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);ctx.stroke();
-        ctx.restore();
-      }
-    });
-    p.update();p.draw();
-  });
-  requestAnimationFrame(animate);
-}
+class Particle{constructor(){this.reset();}reset(){this.x=Math.random()*canvas.width;this.y=Math.random()*canvas.height;this.size=Math.random()*2+0.5;this.speedX=(Math.random()-0.5)*0.3;this.speedY=(Math.random()-0.5)*0.3;this.opacity=Math.random()*0.3+0.05;this.color=Math.random()>0.5?'2,132,199':'5,150,105';}update(){this.x+=this.speedX;this.y+=this.speedY;if(this.x<0||this.x>canvas.width||this.y<0||this.y>canvas.height)this.reset();}draw(){ctx.save();ctx.globalAlpha=this.opacity;ctx.fillStyle=`rgba(${this.color},1)`;ctx.beginPath();ctx.arc(this.x,this.y,this.size,0,Math.PI*2);ctx.fill();ctx.restore();}}
+const particles=Array.from({length:80},()=>new Particle());
+function animate(){ctx.clearRect(0,0,canvas.width,canvas.height);particles.forEach((p,i)=>{particles.slice(i+1).forEach(q=>{const d=Math.hypot(p.x-q.x,p.y-q.y);if(d<120){ctx.save();ctx.globalAlpha=(1-d/120)*0.06;ctx.strokeStyle='rgba(2,132,199,1)';ctx.lineWidth=0.6;ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);ctx.stroke();ctx.restore();}});p.update();p.draw();});requestAnimationFrame(animate);}
 animate();
 
-// ── TYPED TEXT ──
-const roles=['AGM Marketing · Dolomite Sector','Commercial & Logistics Leader','Customer Negotiation Expert','Business Development Strategist'];
+// TYPED
+const roles=['Built ₹60Cr Business · Won 3.5L MT SAIL Tender','AGM Marketing · Dolomite & Ferro Alloys Specialist','Key Accounts: SAIL · JSW · JSPL · TATA Steel','Grew Shivaay Associates ₹0 → ₹5Cr/Year'];
 let ri=0,ci=0,deleting=false,el=document.getElementById('typed');
-function type(){
-  const r=roles[ri];
-  if(!deleting){
-    el.textContent=r.slice(0,++ci);
-    if(ci===r.length){deleting=true;setTimeout(type,1800);return;}
-  } else {
-    el.textContent=r.slice(0,--ci);
-    if(ci===0){deleting=false;ri=(ri+1)%roles.length;}
-  }
-  setTimeout(type,deleting?40:70);
-}
+function type(){const r=roles[ri];if(!deleting){el.textContent=r.slice(0,++ci);if(ci===r.length){deleting=true;setTimeout(type,2200);return;}}else{el.textContent=r.slice(0,--ci);if(ci===0){deleting=false;ri=(ri+1)%roles.length;}}setTimeout(type,deleting?30:65);}
 type();
 
-// ── COUNTER ANIMATION ──
-function animateCounter(el,target){
-  let current=0;
-  const step=target/60;
-  const timer=setInterval(()=>{
-    current+=step;
-    if(current>=target){current=target;clearInterval(timer);}
-    el.textContent=Math.floor(current);
-  },16);
-}
-const observer=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{
-    if(e.isIntersecting){
-      document.querySelectorAll('[data-target]').forEach(el=>{
-        animateCounter(el,+el.dataset.target);
-      });
-      observer.disconnect();
-    }
-  });
-},{threshold:0.3});
-observer.observe(document.querySelector('.hero-stats'));
-
-// ── SCROLL REVEAL ──
-const revealObs=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});
-},{threshold:0.1});
-document.querySelectorAll('.tl-item,.skill-card,.kra-card,.edu-card').forEach(el=>{
-  revealObs.observe(el);
-});
+// SCROLL REVEAL
+const revObs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:0.1});
+document.querySelectorAll('.tl-item,.skill-card,.kra-card,.edu-card').forEach(el=>revObs.observe(el));
 </script>
 </body>
 </html>
