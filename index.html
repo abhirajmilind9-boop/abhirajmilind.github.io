@@ -198,11 +198,30 @@ body{font-family:"Space Grotesk",sans-serif;background:var(--bg);color:var(--tex
   .hero-photo{width:110px;height:110px;}
 }
 @media print{
-  #canvas,.fab,.nav,.scroll-hint,.download-btn{display:none!important;}
-  body{background:white!important;}
-  .hero{min-height:unset;padding:30px 24px;}
+  /* Force browser to print ALL colors and backgrounds */
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;color-adjust:exact!important;}
+  #canvas,.fab,.scroll-hint,.download-btn{display:none!important;}
+  .nav{position:relative!important;box-shadow:none!important;}
+  body{background:var(--bg)!important;}
+  .hero{min-height:unset!important;padding:28px 24px!important;background:linear-gradient(135deg,#0f2240 0%,#1a3a5c 45%,#0e7490 100%)!important;}
+  .hero h1{color:#ffffff!important;}
+  .hero-tag{color:rgba(147,210,255,0.9)!important;}
+  .ach-pill{background:rgba(255,255,255,0.12)!important;border:1px solid rgba(255,255,255,0.2)!important;}
   .tl-item,.skill-card,.kra-card,.edu-card{opacity:1!important;transform:none!important;}
-  .section{padding:28px 24px;}
+  .tl-card,.skill-card,.kra-card,.edu-card,.personal-card,.objective-card{
+    background:#ffffff!important;border:1px solid #e2e8f0!important;
+    box-shadow:none!important;break-inside:avoid!important;
+  }
+  .tl-bullets li.win{background:linear-gradient(135deg,rgba(5,150,105,0.08),rgba(2,132,199,0.06))!important;border-left:3px solid #059669!important;}
+  .section{padding:20px 24px!important;}
+  .hero-photo{width:120px!important;height:120px!important;}
+  .hero-photo-ring,.hero-photo-ring2{display:none!important;}
+  .kra-card::after{display:none!important;}
+  h1,h2,.sec-title{color:var(--navy)!important;}
+  .tl-company{color:var(--navy)!important;}
+  .tl-role,.job-stat,.sec-eyebrow,.kra-num{color:var(--teal)!important;}
+  .tl-bullets li.win strong{color:#059669!important;}
+  page{size:A4;margin:10mm;}
 }
 </style>
 </head>
@@ -236,7 +255,7 @@ body{font-family:"Space Grotesk",sans-serif;background:var(--bg);color:var(--tex
     <span class="contact-btn">📍 Raipur, CG</span>
   </div>
 
-  <button class="download-btn" onclick="window.print()">
+  <button class="download-btn" onclick="printResume()">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
     Download Resume PDF
   </button>
@@ -390,7 +409,7 @@ body{font-family:"Space Grotesk",sans-serif;background:var(--bg);color:var(--tex
 <div class="footer"><span>Abhiraj Milind</span> &nbsp;·&nbsp; abhirajmilind9@gmail.com &nbsp;·&nbsp; +91 70082 63982 &nbsp;·&nbsp; 2026</div>
 
 <!-- Floating Download -->
-<button class="fab" onclick="window.print()">
+<button class="fab" onclick="printResume()">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
   Download PDF
 </button>
@@ -406,6 +425,13 @@ function anim(){ctx.clearRect(0,0,canvas.width,canvas.height);ps.forEach((p,i)=>
 anim();
 const roles=["Built ₹60Cr Business · Won 3.5L MT SAIL Tender","AGM Marketing · Dolomite & Ferro Alloys Specialist","Key Accounts: SAIL · JSW · JSPL · TATA Steel","Grew Shivaay Associates ₹0 → ₹5Cr/Year"];
 let ri=0,ci=0,del=false,el=document.getElementById("typed");
+function printResume(){
+  if(!sessionStorage.getItem("printTipShown")){
+    sessionStorage.setItem("printTipShown","1");
+    alert("📄 PDF Tips for COLORS to appear:\n\n1. In Print dialog → More Settings\n2. ✅ Enable Background Graphics\n3. Set Margins to Minimum\n4. Save as PDF\n\n(Only need to do this once!)");
+  }
+  window.print();
+}
 function type(){const r=roles[ri];if(!del){el.textContent=r.slice(0,++ci);if(ci===r.length){del=true;setTimeout(type,2200);return;}}else{el.textContent=r.slice(0,--ci);if(ci===0){del=false;ri=(ri+1)%roles.length;}}setTimeout(type,del?30:65);}
 type();
 const ob=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add("visible");});},{threshold:0.1});
